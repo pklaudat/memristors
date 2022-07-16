@@ -1,0 +1,56 @@
+# MTJ - LAPROT  ( UFRGS )
+# Author: Paulo Ricardo Klaudat Neto
+# Free Layer
+
+set pi [expr {4*atan(1.0)}]
+set mu0 [expr {4*$pi*1e-7}]
+set Ms0 800e3
+set A 13e-12
+set Ku 500e3
+set alpha 0.01
+set P0 0.5669
+
+
+# ONE LAYER - FREE LAYER
+
+
+Specify Oxs_MultiAtlas:atlas {
+   atlas { Oxs_BoxAtlas {
+       xrange {0 180e-9}
+       yrange {0 80e-9}
+       zrange {0e-9 5e-9}
+       name top
+   } }
+}
+
+Specify Oxs_EllipitcalMesh:mesh {
+  cellsize {180e-9 80e-9 5e-9}
+  atlas :atlas
+}
+
+Specify Oxs_UniaxialAnisotropy {
+  K1  $Ku
+  axis { Oxs_RandomVectorField {
+           min_norm 1
+           max_norm 1
+  } }
+}
+
+Specify Oxs_UniformVectorField{
+        norm 1
+        vecotr {1 1 1}
+}
+
+
+# Create destinations
+
+Destination my_graph mmGraph
+Destination my_archive mmArchive
+Destination my_display mmDisp
+
+# Specifying what is saved
+
+Schedule DataTable&nbsp;my_graph Step 1
+Schedule DataTable&nbsp:my_archive Step 1
+Schedule Oxs_TimeDriver::Magnetization&nbsp;my_display Stage 1
+Schedule Oxs_TimeDriver::Magnetization&nbsp;my_display Step 1
