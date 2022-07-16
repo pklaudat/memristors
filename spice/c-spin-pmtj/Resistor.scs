@@ -1,0 +1,38 @@
+simulator lang=spectre
+//************************************************************************************
+//************************************************************************************
+//** Title:  Resistance.inc
+//** Author: Jongyeon Kim, VLSI Research Lab @ UMN
+//** Email:  kimx2889@umn.edu
+//************************************************************************************
+//** The dependence of resistance on  relative angle, temperature, and bias voltage
+//** is implemented.
+//************************************************************************************
+
+subckt RA (n_plus n_minus Mx My Mz Tmp thi)
+* parameters lx=65n ly=130n P0=0.715 RA0=5.4 MA=0.0
+
+//*** Spherical coordinate ***
+
+E_thip (thip 0) bsource v=(1-MA)*acos((1-MA)*0.999*v(My)/pow(pow(v(Mx),2)+pow(v(My),2),0.5))
+E_thp  (thp 0) bsource v=MA*acos(MA*0.999*v(Mz)/pow(pow(v(My),2)+pow(v(Mz),2),0.5))
+E_th   (th 0) bsource v=max(V(thi),min(355/113-V(thi),V(thip)+V(thp)))
+E_phi  (phi 0) bsource v=(1-MA)*atan(v(Mx)/v(Mz))+MA*atan(v(My)/v(Mx))
+
+//*** Temp. dependent parameters *******************
+parameters asp=2e-5
+//*** Rp *******************************************
+parameters RA=RA0*1e-12   //$ [ohm*m2]
+parameters Rp=RA/(lx*ly)
+
+//*** TMR ******************************************
+parameters v0=0.65
+E_TMR0 (TMR0 0) bsource v=2*pow(P0,2)*pow((1-asp*pow(v(Tmp),1.5)),2)/(1-pow(P0,2)*pow(1-asp*pow(v(Tmp),1.5),2))*100
+E_TMR  (TMR 0)  bsource v=v(TMR0)/(1+pow(((v(n_plus)-v(n_minus))/v0),2))
+E_Rap  (Rap 0)  bsource v=(v(TMR)/100+1)*Rp
+
+//*** R(V,Tmp,th) **********************************
+R_MTJ (n_plus n_minus) resistor r=(1+cos(v(th)))*(Rp-v(Rap))/2+v(Rap)
+E_rmtj (rmtj 0) bsource v=((1+cos(v(th)))*(Rp-v(Rap))/2+v(Rap))
+
+ends RA

@@ -1,0 +1,118 @@
+*********************************************************************************************************
+*    .___  ___.  _______ .___  ___. .______       __       _______..___________.  ______   .______      *
+*    |   \/   | |   ____||   \/   | |   _  \     |  |     /       ||           | /  __  \  |   _  \     *
+*    |  \  /  | |  |__   |  \  /  | |  |_)  |    |  |    |   (----``---|  |----`|  |  |  | |  |_)  |    *
+*    |  |\/|  | |   __|  |  |\/|  | |      /     |  |     \   \        |  |     |  |  |  | |      /     *
+*    |  |  |  | |  |____ |  |  |  | |  |\  \----.|  | .----)   |       |  |     |  `--'  | |  |\  \----.*
+*    |__|  |__| |_______||__|  |__| | _| `._____||__| |_______/        |__|      \______/  | _| `._____|*
+*                                                                                                       *
+* *******************************************************************************************************                                                                                                   
+
+
+**********************************************************************************************************
+* Biolek Model
+***********************************************************************************************************
+* simulator lang=spectre
+* include "biolek.scs"
+
+* VDD1 vcc 0 vsource type=pwl wave=[0 1u 50n 1u 50.01n 1 100n 1 100.01n 1u 150n 1u 150.01n -1 200n -1 200.01n 1u]
+* VSS1 vss 0 vsource dc=0
+* XMEMRISTOR vcc vss 0 biolek
+
+
+**********************************************************************************************************
+* Pershin and Di Ventra - Current Threshold
+***********************************************************************************************************
+* simulator lang=spectre
+* include "pershin-current-threshold/memristor.scs"
+
+* parameters
+* + vmem=1.0
+* + method=traponly
+
+* VDD2 vcc 0 vsource type=pwl wave=[0 1u 50n 1u 50.01n vmem 100n vmem 100.01n 1u 150n 1u 150.01n -vmem 200n -vmem 200.01n 1u]
+* VSS2 vss 0 vsource dc=0
+* XMEMRISTOR vcc vss memristor
+
+**********************************************************************************************************
+* CSpin - IMTJ
+***********************************************************************************************************
+* simulator lang=spice
+* include "c-spin-imtj/MTJ_model.inc"
+
+* params vmtj=1.0
+* **V1 node 0 'vmtj'
+* VDD3 vcc 0 vsource type=pwl wave=[0 1u 50n 1u 50.1n vmtj 100n vmtj 100.1n 1u 150n 1u 150.1n -vmtj 200n -vmtj 200.1n 1u]
+* XIMTJ vcc 0 MTJ lx=32n ly=96n lz=2.44n Ms0=1210 P0=0.69 alpha=0.0062 Tmp0=358 RA0=5 MA=0 ini=1
+
+**********************************************************************************************************
+* CSpin - PMTJ
+***********************************************************************************************************
+* simulator lang=spectre
+* include "c-spin-pmtj/MTJ_model.inc"
+
+* parameters
+* + vmtj=1.0
+* + method=traponly
+* + sim_rtol=1e-4
+* + temp_celsius=26.85
+
+* VDD3 vcc 0 vsource type=pwl wave=[0 vmtj 5n vmtj 6n 0 10n 0 11n -vmtj 15n -vmtj 16n 0]
+* XPMTJ vcc 0 MTJ lx=65n ly=65n lz=1.48n Ms0=1210 P0=0.69 alpha=0.006 Tmp0=358 RA0=5 MA=1 ini=1 tc=1.5n
+
+
+
+**********************************************************************************************************
+* Verilog A model - PMTJ
+***********************************************************************************************************
+simulator lang=spectre
+global 0
+
+include "verilog-pmtj/mtj_subcircuit.scs"
+
+
+parameters 
++ i_dc=0e-6
++ i_pulse_ap2p=-80e-6
++ w_pulse=50e-9
++ input_delay=-2e-9
++ temp_celsius=26.85
++ do_thermal=0
++ do_theta_windowing=0
++ do_fake_thermal=0
++ sim_pivrel=0.1
++ sim_rtol=1e-4
++ sim_atol=1e-8
++ maxstep=1e-12
++ method=traponly
+
+ITRAN0 0 e0 isource type=pwl wave=[0 i_dc 2n -i_pulse_ap2p 52n -i_pulse_ap2p 54n i_dc 104n i_dc 106n i_pulse_ap2p 156n i_pulse_ap2p 158n i_dc 208n i_dc 210n -i_pulse_ap2p 260n -i_pulse_ap2p 262n i_dc]
+
+mtj_ap2p (e0 0 mz 0 0 0) mtj_subcircuit
+	+ p_do_thermal=do_thermal
+	+ p_do_theta_windowing=do_theta_windowing
+	+ p_do_fake_thermal=do_fake_thermal
+	+ p_atol=sim_atol
+
+highVoltageOptions options highvoltage=yes bin_relref=yes
+
+simulatorOptions options \
+    temp=(temp_celsius) \
+    tnom=25 scalem=1.0 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 \
+    reltol=sim_rtol \
+
+
+finalTimeOP info what=oppoint where=rawfile
+modelParameter info what=models where=rawfile
+element info what=inst where=rawfile
+outputParameter info what=output where=rawfile
+
+primitives info what=primitives where=rawfile
+subckts info what=subckts where=rawfile
+saveOptions options save=all subcktprobelvl=3 saveahdlvars=all exportfile="./exported_test.data"
+tran_tt tran stop=(300n) write="spectre.ic" writefinal="spectre.fc" \
+    annotate=status maxiters=5 \
+    method=method \
+
+

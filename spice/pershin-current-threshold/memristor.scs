@@ -1,0 +1,24 @@
+simulator lang=spectre
+
+*********************************************************************************************
+*							SUBCKT MEMRISTOR										*
+*********************************************************************************************
+parameters Ron=5k Roff=30k Rinit=5k alpha=0 beta=1e18 It=25u C1=0.1 C2=0
+
+real f1(real y, real vx) {
+	return (((Roff-vx)/Roff + C1)*beta*y + ((Roff-vx)/Roff + C1)*0.5*(alpha-beta)*(abs(y+It)-abs(y-It)))
+}
+real f2(real y, real vx) {
+	return (((vx-Ron)/Roff + C2)*beta*y + ((vx-Ron)/Roff + C2)*0.5*(alpha-beta)*(abs(y+It)-abs(y-It)))
+}
+real Im(real vmem, real vx) {
+	return (vmem/vx)
+}
+
+subckt memristor (plus minus)
+	Cx x 0 capacitor c=1 ic=Rinit	
+	Bx 0 x bsource i=((Im(v(plus),v(x)) > 0) && (v(x) < Roff)) ? f1(Im(v(plus),v(x)),v(x)) : ((((Im(v(plus),v(x))  < 0) && (v(x) > Ron)) ? f2(Im(v(plus),v(x)) ,v(x)) : 0))
+	Rmem plus minus resistor r=v(x)	
+ends memristor
+
+
