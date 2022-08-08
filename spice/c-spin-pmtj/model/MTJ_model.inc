@@ -10,7 +10,7 @@
 simulator lang=spice
 
 .include 'LLG_solver.inc'
-.include 'Resistor.inc'
+.include 'Resistor.scs'
 .include 'HeatDF.inc'
 
 .subckt MTJ e1 e2 lx='65n' ly='130n' lz='1.8n' Ms0='1075' P0='0.715' alpha='0.01' Tmp0='300' RA0='5.4' MA='0.0' ini='1' tc='1.5n'

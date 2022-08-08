@@ -2,7 +2,7 @@
 * Biolek Model
 ***********************************************************************************************************
 simulator lang=spectre
-include "biolek.scs"
+include "model/biolek.scs"
 
 VDD1 vcc 0 vsource type=pwl wave=[0 1u 50n 1u 50.01n 1 100n 1 100.01n 1u 150n 1u 150.01n -1 200n -1 200.01n 1u]
 VSS1 vss 0 vsource dc=0

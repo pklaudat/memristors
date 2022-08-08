@@ -48,18 +48,14 @@
 **********************************************************************************************************
 * CSpin - PMTJ
 ***********************************************************************************************************
-* simulator lang=spectre
-* include "c-spin-pmtj/MTJ_model.inc"
+* simulator lang=spice
+* .include "c-spin-pmtj/MTJ_model.inc"
+* .param vmtj='1.0'
+* V1 1 0 pwl (0 'vmtj' 5n 'vmtj' 6n 0 10n 0 11n '-vmtj' 15n '-vmtj' 16n 0)
+* PMTJ 1 0 MTJ lx='65n' ly='65n' lz='1.48n' Ms0='1210' P0='0.69' alpha='0.006' Tmp0='358' RA0='5' MA='1' ini='1' tc='1.5n'
 
-* parameters
-* + vmtj=1.0
-* + method=traponly
-* + sim_rtol=1e-4
-* + temp_celsius=26.85
-
-* VDD3 vcc 0 vsource type=pwl wave=[0 vmtj 5n vmtj 6n 0 10n 0 11n -vmtj 15n -vmtj 16n 0]
-* XPMTJ vcc 0 MTJ lx=65n ly=65n lz=1.48n Ms0=1210 P0=0.69 alpha=0.006 Tmp0=358 RA0=5 MA=1 ini=1 tc=1.5n
-
+* .param pw='20ns' 
+* .tran 1p 'pw' START=1.0e-18  uic $ sweep vmtj 0.4 0.5 0.01
 
 
 **********************************************************************************************************
@@ -110,9 +106,8 @@ outputParameter info what=output where=rawfile
 
 primitives info what=primitives where=rawfile
 subckts info what=subckts where=rawfile
-saveOptions options save=all subcktprobelvl=3 saveahdlvars=all exportfile="./exported_test.data"
+saveOptions options save=all subcktprobelvl=3 saveahdlvars=all exportfile="verilog-pmtj/exported_test.data"
 tran_tt tran stop=(300n) write="spectre.ic" writefinal="spectre.fc" \
     annotate=status maxiters=5 \
     method=method \
-
 

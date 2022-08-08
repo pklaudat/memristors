@@ -4,12 +4,12 @@
 simulator lang=spectre
 global 0
 
-include "verilog-pmtj/mtj_subcircuit.scs"
+include "model/mtj_subcircuit.scs"
 
 
 parameters 
 + i_dc=0e-6
-+ i_pulse_ap2p=-80e-6
++ i_pulse_ap2p=-100e-6
 + w_pulse=50e-9
 + input_delay=-2e-9
 + temp_celsius=26.85
@@ -17,12 +17,14 @@ parameters
 + do_theta_windowing=0
 + do_fake_thermal=0
 + sim_pivrel=0.1
-+ sim_rtol=1e-4
-+ sim_atol=1e-8
-+ maxstep=1e-12
++ sim_rtol=1e-8
++ sim_atol=1e-10
++ maxstep=1e-18
 + method=traponly
 
-ITRAN0 0 e0 isource type=pwl wave=[0 i_dc 2n -i_pulse_ap2p 52n -i_pulse_ap2p 54n i_dc 104n i_dc 106n i_pulse_ap2p 156n i_pulse_ap2p 158n i_dc 208n i_dc 210n -i_pulse_ap2p 260n -i_pulse_ap2p 262n i_dc]
+ITRAN0 0 e0 isource type=pwl wave=[0 i_dc 1n -i_pulse_ap2p 11n -i_pulse_ap2p 12n i_dc 22n i_dc 23n i_pulse_ap2p 33n i_pulse_ap2p 34n i_dc 44n i_dc 45n -i_pulse_ap2p 55n -i_pulse_ap2p 56n i_dc]
+
+// ITRAN0 0 e0 isource type=pwl wave=[0 i_dc 2n -i_pulse_ap2p 52n -i_pulse_ap2p 54n i_dc 104n i_dc 106n i_pulse_ap2p 156n i_pulse_ap2p 158n i_dc 208n i_dc 210n -i_pulse_ap2p 260n -i_pulse_ap2p 262n i_dc]
 
 mtj_ap2p (e0 0 mz 0 0 0) mtj_subcircuit
 	+ p_do_thermal=do_thermal
@@ -47,6 +49,6 @@ outputParameter info what=output where=rawfile
 primitives info what=primitives where=rawfile
 subckts info what=subckts where=rawfile
 saveOptions options save=all subcktprobelvl=3 saveahdlvars=all exportfile="verilog-pmtj/exported_test.data"
-tran_tt tran stop=(300n) write="verilog-pmtj/spectre.ic" writefinal="verilog-pmtj/spectre.fc" \
+tran_tt tran stop=(50n) write="verilog-pmtj/spectre.ic" writefinal="verilog-pmtj/spectre.fc" \
     annotate=status maxiters=5 \
     method=method

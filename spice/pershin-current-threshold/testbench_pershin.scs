@@ -2,7 +2,7 @@
 * Pershin and Di Ventra - Current Threshold
 ***********************************************************************************************************
 simulator lang=spectre
-include "pershin-current-threshold/memristor.scs"
+include "model/memristor.scs"
 
 parameters
 + vmem=1.0
