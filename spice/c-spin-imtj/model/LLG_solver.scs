@@ -1,0 +1,83 @@
+simulator lang= spectre
+
+subckt LLG (Mx My Mz Is Ias Tmp thi) 
+
+parameters lx=65n ly=130n lz=1.8n Ms0=1075 P0=0.715 alpha=0.01 MA=0.0 ini=0
+
+*** Physical parameters **************************
+parameters pi=355/113
+parameters gamma=2.8e6*2*pi
+parameters h=6.625e-27/(2*pi)
+parameters e=1.602e-19
+parameters kb=1.38e-16
+
+*** Temp. dependent parameters *******************
+parameters Tcurie=1420
+parameters beta=0.4
+parameters asp=2e-5
+E_Ms (Ms 0) bsource v=Ms0*pow((1-v(Tmp)/Tcurie),beta)
+E_P  (P  0) bsource v=P0*pow((1-asp*v(Tmp)),(3/2))
+
+
+*** Magnetization of pinned layer ****************
+parameters Mpx=0.0
+parameters Mpy=1-MA
+parameters Mpz=MA
+
+*** Shape anisotropy - Demagnetizing factors *****
+real Nsh(real a,real b,real c) {
+ return 1/pi*((b*b-c*c)/(2*b*c)*log((sqrt(a*a+b*b+c*c)-a)/(sqrt(a*a+b*b+c*c)+a))+(a*a-c*c)/(2*a*c)*log((sqrt(a*a+b*b+c*c)-b)/(sqrt(a*a+b*b+c*c)+b))+b/(2*c)*log((sqrt(a*a+b*b)+a)/(sqrt(a*a+b*b)-a))+a/(2*c)*log((sqrt(a*a+b*b)+b)/(sqrt(a*a+b*b)-b))+c/(2*a)*log((sqrt(b*b+c*c)-b)/(sqrt(b*b+c*c)+b))+c/(2*b)*log((sqrt(a*a+c*c)-a)/(sqrt(a*a+c*c)+a))+2*atan((a*b)/(c*sqrt(a*a+b*b+c*c)))+(a*a*a+b*b*b-2*c*c*c)/(3*a*b*c)+(a*a+b*b-2*c*c)/(3*a*b*c)*sqrt(a*a+b*b+c*c)+c/(a*b)*(sqrt(a*a+c*c)+sqrt(b*b+c*c))-(pow((b*b+a*a),(3/2))+pow((b*b+c*c),(3/2))+pow((a*a+c*c),(3/2)))/(3*a*b*c)); 
+}
+
+parameters Nx=4*pi*Nsh(lz,ly,lx)
+parameters Ny=4*pi*Nsh(lz,lx,ly)
+parameters Nz=4*pi*Nsh(ly,lx,lz)
+
+
+*** Initialization - initial angle with thermal stability ******
+parameters Msi=Ms0*pow((1-Tmp0/Tcurie),beta)
+parameters IMA=((Nx-Ny)*Msi*Msi*lx*ly*lz*1e6)/(2*kb*Tmp0)
+E_thste (thste 0) bsource v=IMA
+
+parameters thi=asin(pow((1/(2*IMA)),(1/2)))
+E_thi (thi 0) bsource v=asin(pow((1/(2*IMA)),(1/2)))
+
+parameters Mx0=sin(thi)
+parameters My0=(1-2*ini)*cos(thi)
+parameters Mz0=0.0
+
+ic Mx=Mx0
+ic My=My0
+ic Mz=Mz0
+
+*** Demagnetizating field for in-plane MTJ ********
+E_Hdx (Hdx 0) bsource v=-Nx*v(Mx)*v(Ms)
+E_Hdy (Hdy 0) bsource v=-Ny*v(My)*v(Ms)
+E_Hdz (Hdz 0) bsource v=-Nz*v(Mz)*v(Ms)
+
+*** Effective anisotropy field ********************
+E_Hefx (Hefx 0) bsource v=v(Hdx)
+E_Hefy (Hefy 0) bsource v=v(Hdy)
+E_Hefz (Hefz 0) bsource v=v(Hdz)
+
+*** Polarized spin current (J=Ias/lx/ly) **********
+R_Is (Is 0) resistor r=v(Ias)*v(P)*h/(2*e*lx*ly*lz*1e6*v(Ms)) 
+
+*** LLG solving for Mx, My, Mz ********************
+C_Mx (Mx 0) capacitor c=((1+alpha*alpha)/gamma) 
+G_dMx_prec (0 Mx) bsource i=-(v(My)*v(Hefz)-v(Hefy)*v(Mz))
+G_dMx_damp (0 Mx) bsource i=-alpha*(v(My)*(v(Mx)*v(Hefy)-v(Hefx)*v(My))-(v(Mz)*v(Hefx)-v(Hefz)*v(Mx))*v(Mz))
+G_dMx_torq (0 Mx) bsource i=v(Is)*(v(My)*(v(Mx)*Mpy-Mpx*v(My))-(v(Mz)*Mpx-Mpz*v(Mx))*v(Mz))
+
+C_My (My 0) capacitor c=((1+alpha*alpha)/gamma) 
+G_dMy_prec (0 My) bsource i=-(v(Mz)*v(Hefx)-v(Hefz)*v(Mx))
+G_dMy_damp (0 My) bsource i=-alpha*(v(Mz)*(v(My1)*v(Hefz)-v(Hefy)*v(Mz))-(v(Mx)*v(Hefy)-v(Hefx)*v(My1))*v(Mx))
+G_dMy_torq (0 My) bsource i=v(Is)*(v(Mz)*(v(My1)*Mpz-Mpy*v(Mz))-(v(Mx)*Mpy-Mpx*v(My1))*v(Mx))
+E_My1 (My1 0) bsource v=max(min(v(My),cos(v(thi))),-cos(v(thi)))//v(My) max_val=cos(v(thi)) min_val=-cos(v(thi))
+
+C_Mz (Mz 0) capacitor c=((1+alpha*alpha)/gamma) 
+G_dMz_prec (0 Mz) bsource i=-(v(Mx)*v(Hefy)-v(Hefx)*v(My))
+G_dMz_damp (0 Mz) bsource i=-alpha*(v(Mx)*(v(Mz)*v(Hefx)-v(Hefz)*v(Mx))-(v(My)*v(Hefz)-v(Hefy)*v(Mz))*v(My))
+G_dMz_torq (0 Mz) bsource i=v(Is)*(v(Mx)*(v(Mz)*Mpx-Mpz*v(Mx))-(v(My)*Mpz-Mpy*v(Mz))*v(My))
+
+ends LLG
