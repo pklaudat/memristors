@@ -30,16 +30,17 @@ simulator lang=spice
 .save
 
 *** Voltage biasing to MTJ *********************************************************
-.param vmtj='1.0'
+.param vmtj='1.2'
 .param twidth=10n
 .param trise=1n
+.param Pol=0.69
 * V1 1 0 'vmtj'
 V1 1 0 pwl (0 'vmtj' 'twidth' 'vmtj' 'twidth+trise' 0 'twidth*2' 0 'twidth*2+trise' '-vmtj' 'twidth*3' '-vmtj' 'twidth*3+trise' 0)
-XMTJ1 1 0 MTJ lx='32n' ly='96n' lz='2.44n' Ms0='1210' P0='0.69' alpha='0.0062' Tmp0='358' RA0='5' MA='0' ini='1'
+XMTJ1 1 0 MTJ lx='32n' ly='96n' lz='2.44n' Ms0='1210' P0='Pol' alpha='0.0062' Tmp0='358' RA0='5' MA='0' ini='1'
 
 *** Analysis ***********************************************************************
-.param pw='10ns' 
-.tran 100p 'pw' START=1.0e-18  uic relv=1f relvar=1f $sweep vmtj 0.3 0.7 0.1
+.param pw='30ns' 
+.tran STOP='pw' START=1.0e-18 uic relv=100n relvar=100n reltol=100n sweep Pol 0.69 0.8 0.05
 
 .meas tsw0 when v(XMTJ1.XLLG.My)='0'
 .meas iwr find i(XMTJ1.ve1) at 1ns

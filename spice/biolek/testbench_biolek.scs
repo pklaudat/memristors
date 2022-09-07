@@ -4,6 +4,11 @@
 simulator lang=spectre
 include "model/biolek.scs"
 
-VDD1 vcc 0 vsource type=pwl wave=[0 1u 50n 1u 50.01n 1 100n 1 100.01n 1u 150n 1u 150.01n -1 200n -1 200.01n 1u]
-VSS1 vss 0 vsource dc=0
-XMEMRISTOR vcc vss 0 biolek
+* VDD1 (vcc 0) vsource type=pwl wave=[0 1u 50n 1u 50.01n 1 100n 1 100.01n 1u 150n 1u 150.01n -1 200n -1 200.01n 1u]
+//VSS1 vss 0 vsource dc=
+VDD1 (vcc 0) bsource b=1*sin(2*pi*(1/80n)*$time)
+XMEM (vcc 0) biolek
+
+
+tranop options save=all
+transim tran start=0.0 step=1p stop=220n

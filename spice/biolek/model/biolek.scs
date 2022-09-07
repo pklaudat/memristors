@@ -21,7 +21,7 @@ real f2(real v1, real v2) {
     return (v1/(Ron*v2 + Roff*(1-v2)))
 }
 
-subckt biolek (TE BE XSV)
+subckt biolek (TE BE)
 * * Circuit to determine state variable
     Gx 0 XSV bsource i=(i(Gmem)*Ron*uv*f1(v(XSV),i(Gmem))/pow(D,2))
     Cx XSV 0 capacitor c=1 ic=x0
