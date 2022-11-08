@@ -1,0 +1,65 @@
+**********************************************************************************************************
+* Verilog A model - PMTJ
+***********************************************************************************************************
+simulator lang=spectre
+global 0
+
+include "model/mtj_subcircuit.scs"
+include "../cmos/16nm-hp.pm"
+
+
+parameters 
++ i_dc=0e-6
++ i_pulse_ap2p=-60e-6
++ w_pulse=50e-9
++ input_delay=-2e-9
++ temp_celsius=26.85
++ do_thermal=0
++ do_theta_windowing=0
++ do_fake_thermal=0
++ sim_pivrel=0.1
++ sim_rtol=1e-8
++ sim_atol=1e-6
+
++ maxstep=1e-18
++ method=traponly
++ vgate=1.0
+
+
+VTRAN gate 0 vsource type=pwl wave=[0 i_dc 2n vgate 52n vgate 54n i_dc 104n i_dc]
+VDD vplus 0 vsource type=dc dc=0.7
+m1 (drain gate source source) nmos
+r1 (vplus drain) resistor r=50k
+VSS source 0 vsource type=dc dc=0.0
+* mtj_ap2p (vplus vminus mz 0 0 0) mtj_subcircuit
+* 	+ p_do_thermal=do_thermal
+* 	+ p_do_theta_windowing=do_theta_windowing
+* 	+ p_do_fake_thermal=do_fake_thermal
+* 	+ p_atol=sim_atol
+
+highVoltageOptions options highvoltage=yes bin_relref=yes
+
+simulatorOptions options \
+    temp=(temp_celsius) \
+    tnom=25 scalem=1.0 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 \
+    reltol=sim_rtol \
+
+
+* finalTimeOP info what=oppoint where=rawfile
+* modelParameter info what=models where=rawfile
+* element info what=inst where=rawfile
+* outputParameter info what=output where=rawfile
+
+* primitives info what=primitives where=rawfile
+* subckts info what=subckts where=rawfile
+saveOptions options save=all subcktprobelvl=3 saveahdlvars=all
+
+tran_pmtj tran stop=(300n) write="verilog-pmtj/spectre.ic" writefinal="verilog-pmtj/spectre.fc" \
+annotate=status \
+method=method
+
+* exportfile="verilog-pmtj/exported_test.data"
+
+simulator lang=spice
+.meas tsw0 when v(mz)='0'

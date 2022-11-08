@@ -1,20 +1,21 @@
 simulator lang=spectre
 
 include "pershin-current-threshold/imply/imply.scs"
+include "../cmos/transmission.scs"
 
 parameters
-+ vcond=-0.8
-+ vclear=1.0
-+ vset=-1.2
-+ vlow=-0.1u
++ vcond=1.0
++ vset=2.0
++ vlow=0.1u
 + method=traponly
-* vset > vcond
-* vset - vcond < vclear
-*VCLEAR (bitline 0) vsource dc=vclear
-*VSET (set 0) vsource type=pwl wave=[0 vlow 5n vlow 5.01n vset 10n vset 10.01n vlow 15n vlow 15.01n -vset 20n -vset 20.01n vlow]
-VSET (set 0) vsource type=pwl wave=[0 vlow 5n vlow 5.01n vset 10n vset 10.01n vlow 15n vlow 15.01n -vset 20n -vset 20.01n vlow 25n vlow 25.01n vset 30n vset 30.01n vlow]
-VCOND (cond 0) vsource type=pwl wave=[0 vlow 5n vlow 5.01n vcond 10n vcond 10.01n vlow 15n vlow 15.01n -vcond 20n -vcond 20.01n vlow 25n vlow 25.01n vset 30n vset 30.01n vlow]
-IMPLY (cond set bitline) imply rg=6k
+
+VDD vdd 0 vsource type=dc dc=2.0
+VSET (set 0) vsource type=pwl wave=[0 vlow 25n vlow 25.01n vset 50n vset 50.01n vlow 100n vlow 100.01n -vset 125n -vset 125.01n vlow 150n vlow 150.01n -vset]
+VCOND (cond 0) vsource type=pwl wave=[0 vlow 50n vlow 50.01n vcond 75n vcond 75.01n vlow 100n vlow 100.01n -vcond 125n -vcond 125.01n vlow 150n vlow 150.01n -vcond]
+VSS vss 0 vsource type=dc dc=0.0
+TGATE1 (vdd 0 set out_set) transmission_gate
+TGATE2 (vdd 0 cond out_cond) transmission_gate
+IMPLY (out_cond out_set bitline) imply
 
 tranop options save=all current=all
-transim tran start=0.01p step=1f stop=50n
+transim tran start=0.01p step=1f stop=200n

@@ -1,0 +1,51 @@
+**********************************************************************************************************
+* CSpin - IMTJ
+***********************************************************************************************************
+************************************************************************************
+** This run file simulates the dynamic motion of  MTJ.
+** # Instruction for simulation
+** 1. Set the MTJ dimensions and material parameters.
+** 2. Select anisotropy(IMA/PMA) and initial state of free layer(P/AP).
+** 3. Adjust bias voltage for Read/Write operation.
+** ex. APtoP switching: positive voltage @ ini='1'
+**     PtoAP switching: negative voltage @ ini='0'  
+************************************************************************************
+** # Description of parameters
+** lx,ly,lz: width, length, and thickness of free layer
+** tox: MgO thickness
+** Ms0:saturation magnetizaion at 0K
+** P0: polarization factor at 0K 
+** alpha: damping factor
+** temp: temperature
+** MA: magnetic anisotropy (MA=0:In-plane,MA=1:Perpendicular)
+**     also sets magnetization in pinned layer, MA=0:[0,1,0],MA=1:[0,0,1]
+** ini: initial state of free layer (ini=0:Parallel,ini=1:Anti-parallel)
+************************************************************************************
+simulator lang=spectre
+include "model/MTJ_model.scs"
+
+parameters
++ method=traponly
++ vmtj=0.6
++ vmtjpta=0.9
++ twidth=8n
++ trise=0.5n
+
+
+ITRAN 1 0 vsource type=pwl wave=[0 vmtj 8n vmtj 8.1n 0 16n 0 16.1n vmtjpta]
+
+
+XMTJ1 (1 0) MTJ lx=32n ly=96n lz=2.44n Ms0=1210 P0=0.69 ini=1 MA=0 alpha=0.0062 Tmp0=338 RA0=5
+
+simulatorOptions options \
+    temp=26.85 \
+    tnom=25 \
+    reltol=1e-6 \
+    bin_relref=yes \
+    highvoltage=yes \
+
+
+VoltQuant quantity name="I" blowup=10e12
+simOptions options save=all subcktprobelvl=3 saveahdlvars=all rforce=5e10
+transimul tran start=1n stop=25n annotate=status method=method bin_relref=yes
+

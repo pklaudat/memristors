@@ -29,6 +29,7 @@ llgs ( aux_0 aux_1 mz h_ext_x h_ext_y h_ext_z) LLGs_va \
     p_do_fake_thermal=p_do_fake_thermal \
     p_atol=p_atol
 
+//i_aux (0 aux_0) bsource i=i(r_mtj_module)*((1+i(r_mtj_module)/(abs(i(r_mtj_module))))*((i_atp-i_pta)/2)+i_pta)
 i_aux (0 aux_0) bsource i=i(r_mtj_module)
 v_aux (aux_1 0) bsource v=v(fl, pl)
 r_aux (aux_0 0) resistor r=1

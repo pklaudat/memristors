@@ -1,4 +1,4 @@
-simulator lang= spectre
+simulator lang=spectre
 
 subckt HD (Ihd Tmp) 
 parameters lx=65n ly=130n lz=1.8n Tmp0=300
@@ -32,15 +32,15 @@ Rl34 (l3 l4) resistor r=Rf
 Rl45 (l4 l5) resistor r=Rf
 Rl56 (l5 l6) resistor r=Rf
 Rl67 (l6 l7) resistor r=Rf
-Vl (l7 0) bsource v=Tmp0 //*Tmp0
+Vl (l7 0) bsource v=Tmp0
 
-Cl0 (Tmp 0) capacitor c=Cf // ic=Tmp0
-Cl1 (l1 0) capacitor c=Cf // ic=Tmp0
-Cl2 (l2 0) capacitor c=Cf // ic=Tmp0
-Cl3 (l3 0) capacitor c=Cf // ic=Tmp0
-Cl4 (l4 0) capacitor c=Cf // ic=Tmp0
-Cl5 (l5 0) capacitor c=Cf // ic=Tmp0
-Cl6 (l6 0) capacitor c=Cf // ic=Tmp0
+Cl0 (Tmp 0) capacitor c=Cf 
+Cl1 (l1 0) capacitor c=Cf 
+Cl2 (l2 0) capacitor c=Cf 
+Cl3 (l3 0) capacitor c=Cf 
+Cl4 (l4 0) capacitor c=Cf 
+Cl5 (l5 0) capacitor c=Cf 
+Cl6 (l6 0) capacitor c=Cf 
 ic Tmp = Tmp0
 ic l1 = Tmp0
 ic l2 = Tmp0
@@ -63,15 +63,15 @@ Rr56 (r5 r6) resistor r=Rf
 Rr67 (r6 r7) resistor r=Rf
 Vr (r7 0) bsource v=Tmp0
 
-Cm0 (Tmp 0) capacitor c=Co // ic=Tmp0
-Cm1 (m1 0) capacitor c=Co // ic=Tmp0
-Cr0 (m2 0) capacitor c=Cf // ic=Tmp0
-Cr1 (r1 0) capacitor c=Cf // ic=Tmp0
-Cr2 (r2 0) capacitor c=Cf // ic=Tmp0
-Cr3 (r3 0) capacitor c=Cf // ic=Tmp0
-Cr4 (r4 0) capacitor c=Cf // ic=Tmp0
-Cr5 (r5 0) capacitor c=Cf // ic=Tmp0
-Cr6 (r6 0) capacitor c=Cf // ic=Tmp0
+Cm0 (Tmp 0) capacitor c=Co 
+Cm1 (m1 0) capacitor c=Co 
+Cr0 (m2 0) capacitor c=Cf 
+Cr1 (r1 0) capacitor c=Cf 
+Cr2 (r2 0) capacitor c=Cf 
+Cr3 (r3 0) capacitor c=Cf 
+Cr4 (r4 0) capacitor c=Cf 
+Cr5 (r5 0) capacitor c=Cf 
+Cr6 (r6 0) capacitor c=Cf 
 ic m1 = Tmp0
 ic m2 = Tmp0
 ic r1 = Tmp0

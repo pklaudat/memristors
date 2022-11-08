@@ -1,10 +1,10 @@
 HEADER
 "PSFversion" "1.00"
 "Log Generator" "drlLog rev. 1.0"
-"Log Time Stamp" "Wed Sep  7 16:30:18 2022"
+"Log Time Stamp" "Thu Sep 22 17:13:46 2022"
 "simulator" "spectre"
 "version" "16.1.0.673.isr14"
-"date" "4:30:18 PM, Wed Sep 7, 2022"
+"date" "5:13:46 PM, Thur Sep 22, 2022"
 "design" "**********************************************************************************************************"
 "signalNameType" "spectre"
 "simMode" "Spectre"
@@ -21,23 +21,380 @@ TYPE
 "description" STRING *
 )
 VALUE
-"transient1-tran" "analysisInst" (
-"tran"
-"transient1.tran.tran"
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
 "PSF"
 ""
-("time")
-"Transient Analysis `transient1': time = (0 s -> 40 ns)"
+("vmtj")
+"Foreach of variable vmtj parent"
 ) PROP(
-"data_type" "swept_scalar"
+"sweep_tree_type" "sweepNode"
 )
 
-"transient1-meas_tran" "analysisInst" (
-"meas_tran"
-"transient1.meas_tran"
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
 "PSF"
 ""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-000_transient1-tran" "analysisInst" (
+"tran"
+"transient1-000_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-000_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 0.500000
+)
+
+"transient1-foreach-000-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-000.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
 ()
 "Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 0.500000
 )
+
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-001_transient1-tran" "analysisInst" (
+"tran"
+"transient1-001_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-001_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 0.600000
+)
+
+"transient1-foreach-001-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-001.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
+()
+"Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 0.600000
+)
+
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-002_transient1-tran" "analysisInst" (
+"tran"
+"transient1-002_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-002_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 0.700000
+)
+
+"transient1-foreach-002-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-002.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
+()
+"Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 0.700000
+)
+
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-003_transient1-tran" "analysisInst" (
+"tran"
+"transient1-003_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-003_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 0.800000
+)
+
+"transient1-foreach-003-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-003.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
+()
+"Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 0.800000
+)
+
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-004_transient1-tran" "analysisInst" (
+"tran"
+"transient1-004_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-004_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 0.900000
+)
+
+"transient1-foreach-004-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-004.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
+()
+"Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 0.900000
+)
+
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-005_transient1-tran" "analysisInst" (
+"tran"
+"transient1-005_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-005_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 1.00000
+)
+
+"transient1-foreach-005-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-005.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
+()
+"Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 1.00000
+)
+
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-006_transient1-tran" "analysisInst" (
+"tran"
+"transient1-006_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-006_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 1.10000
+)
+
+"transient1-foreach-006-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-006.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
+()
+"Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 1.10000
+)
+
+"transient1-foreach" "analysisInst" (
+"foreach"
+"transient1.foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1_meas-meas_foreach" "analysisInst" (
+"meas_foreach"
+"transient1_meas.meas_foreach"
+"PSF"
+""
+("vmtj")
+"Foreach of variable vmtj parent"
+) PROP(
+"sweep_tree_type" "sweepNode"
+)
+
+"transient1-007_transient1-tran" "analysisInst" (
+"tran"
+"transient1-007_transient1.tran.tran"
+"PSF"
+"transient1-foreach"
+("time")
+"Transient Analysis `transient1-007_transient1': time = (0 s -> 50 ns)"
+) PROP(
+"data_type" "swept_scalar"
+"sweep_tree_type" "leafNode"
+"vmtj" 1.20000
+)
+
+"transient1-foreach-007-meas_tran" "analysisInst" (
+"meas_tran"
+"transient1-foreach-007.meas_tran"
+"PSF"
+"transient1_meas-meas_foreach"
+()
+"Measurement Results for transient1 Analysis tran"
+) PROP(
+"sweep_tree_type" "leafNode"
+"vmtj" 1.20000
+)
+
 END

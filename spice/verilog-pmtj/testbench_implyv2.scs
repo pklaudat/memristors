@@ -1,0 +1,64 @@
+**********************************************************************************************************
+* Verilog A model - PMTJ
+***********************************************************************************************************
+simulator lang=spectre
+global 0
+
+include "imply/imply.scs"
+include "../cmos/transmission.scs"
+
+
+parameters 
++ i_dc=0e-6
++ i_cond=25e-6
++ i_set=50e-6
++ v_cond=0.6
++ v_set=1.2
++ i_pulse_ap2p=-50e-6
++ i_pulse_ap2p2=-25e-6
++ w_pulse=50e-9
++ input_delay=-2e-9
++ temp_celsius=26.85
++ do_thermal=0
++ do_theta_windowing=0
++ do_fake_thermal=0
++ sim_pivrel=0.1
++ sim_rtol=1e-8
++ sim_atol=1e-10
++ maxstep=1e-18
++ method=traponly
+
+VTRAN0 cond 0 vsource type=pwl wave=[0 i_dc 1n v_cond 31n v_cond 32n i_dc 62n i_dc 63n v_cond 93n v_cond 94n i_dc 124n i_dc 125n v_cond]
+VTRAN1 set 0 vsource type=pwl wave=[0 i_dc 1n v_set 31n v_set 32n i_dc 62n i_dc 63n v_set 93n v_set 94n i_dc 124n i_dc 125n v_set]
+
+* VTRAN0 cond 0 vsource type=pwl wave=[0 i_dc 1n v_cond 31n v_cond 32n i_dc 62n i_dc 63n v_cond 93n v_cond 94n i_dc 124n i_dc 125n v_cond]
+* VTRAN1 set 0 vsource type=pwl wave=[0 i_dc 1n v_set 31n v_set 32n i_dc 62n i_dc 63n v_set 93n v_set 94n i_dc 124n i_dc 125n v_set]
+* ITRAN1 0 vset isource type=pwl wave=[0 i_dc 1n i_set 31n i_set 32n i_dc 62n i_dc 63n i_set 93n i_set 94n i_dc 124n i_dc 125n i_set]
+VDC vdd 0 vsource type=dc dc=1.2
+VCOND (vdd 0 cond cond_out) transmission_gate
+VSET (vdd 0 set set_out) transmission_gate
+* r1 (cond_out vss) resistor r=50k
+* r2 (set_out vss) resistor r=50k
+* VSS (vss 0) vsource type=dc dc=0.0
+PMTJ_IMPLY (vcocond_out set_out bitline) imply
+
+highVoltageOptions options highvoltage=yes bin_relref=yes
+
+simulatorOptions options \
+    temp=(temp_celsius) \
+    tnom=25 scalem=1.0 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 \
+    reltol=sim_rtol \
+
+
+* finalTimeOP info what=oppoint where=rawfile
+* modelParameter info what=models where=rawfile
+* element info what=inst where=rawfile
+* outputParameter info what=output where=rawfile
+
+* primitives info what=primitives where=rawfile
+* subckts info what=subckts where=rawfile
+saveOptions options save=all subcktprobelvl=3 saveahdlvars=all
+tran_tt tran stop=(250n) \
+    annotate=status maxiters=5 \
+    method=method

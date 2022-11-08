@@ -1,0 +1,36 @@
+HEADER
+"PSFversion" "1.00"
+"simulator" "spectre"
+"version" "16.1.0.673.isr14"
+"date" "6:21:18 PM, Sat Aug 27, 2022"
+"design" "**********************************************************************************************************"
+"analysis type" "info.subckts"
+"analysis name" "subckts"
+"analysis description" "Circuit Information"
+"xVecSorted" "unknown"
+"tolerance.relative" 1.00000e-08
+TYPE
+"subckt" STRUCT(
+"subckt_params" STRING *
+"subckt_terminals" STRING *
+"subckt_instances" STRING *
+) PROP(
+"key" "sub"
+)
+VALUE
+"imply" "subckt" (
+"sim_atol do_fake_thermal do_thermal rg do_theta_windowing"
+"vcond vset bitline 0"
+"PMTJ_IMPLY"
+)
+"mtj_subcircuit_no_hext" "subckt" (
+""
+""
+""
+)
+"mtj_subcircuit" "subckt" (
+"p_atol p_p p_do_theta_windowing p_tmr p_do_thermal p_r_contact p_do_fake_thermal p_theta_init p_r_p"
+"pl fl mz h_ext_x h_ext_y h_ext_z 0"
+"PMTJ_IMPLY.mtj_P PMTJ_IMPLY.mtj_Q"
+)
+END

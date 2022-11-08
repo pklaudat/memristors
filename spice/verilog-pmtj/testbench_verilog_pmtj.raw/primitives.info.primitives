@@ -1,0 +1,80 @@
+HEADER
+"PSFversion" "1.00"
+"simulator" "spectre"
+"version" "16.1.0.673.isr14"
+"date" "8:34:53 AM, Mon Sep 26, 2022"
+"design" "**********************************************************************************************************"
+"analysis type" "info.primitives"
+"analysis name" "primitives"
+"analysis description" "Circuit Information"
+"xVecSorted" "unknown"
+"tolerance.relative" 1.00000e-08
+TYPE
+"primitive" STRUCT(
+"model" STRING *
+"oppoint" STRING *
+"output" STRING *
+"inst" STRING *
+"region" STRING *
+"terminals" STRING *
+) PROP(
+"key" "prim"
+)
+VALUE
+"iprobe" "primitive" (
+""
+"i "
+""
+""
+""
+"in out "
+)
+"bsource_ad730d" "primitive" (
+""
+"subckt_trise__ termcurs pwr res v i lv2 "
+""
+"m isnoisy isnoisyGiven bs_par_0 bs_par_1 __scale__ "
+""
+"bs_p1 bs_p2 bs_p3 "
+)
+"bsource_c8caa4" "primitive" (
+""
+"termcurs pwr v i "
+""
+"m isnoisy isnoisyGiven "
+""
+"bs_p1 bs_p2 bs_p3 bs_p4 "
+)
+"bsource_c53793" "primitive" (
+""
+"termcurs pwr v i __ahdl_flag__ "
+""
+"m isnoisy isnoisyGiven "
+""
+"bs_p1 bs_p2 "
+)
+"isource" "primitive" (
+""
+"i v pwr "
+"tempeff "
+"dc type fundname delay edgetype val0 val1 period rise fall width file offset scale stretch rms pwlfilter rolloff pwlbandwidth allbrkpts pwlperiod pwlperiodstart twidth sinedc ampl freq sinephase ampl2 freq2 sinephase2 fundname2 iqmodfiles fmmodindex fmmodfreq fmmodfiles ammodindex ammodoffset ammodfreq ammodphase damp freqvec amplvec phasevec maxharms td1 tau1 td2 tau2 expperiod data rptstart rpttimes td01 td10 ref jitter rjseed rjrms pjamp pjfreq pjtype seed taps lfsrtaps lfsrseed registerlength triggerthreshold triggerdelthresh triggerdirection transitionreference modulation pam4_mapping oscmacrofile freqscale amplscale noisefile noisetype noiseinterp isnoisy mag phase xfmag pacmag pacphase m tc1 tc2 tnom trise "
+""
+"sink src ctlp ctln "
+)
+"LLGs_va" "primitive" (
+""
+"subckt_trise__ termcurs dt c_gamma phi_init theta_rand theta_0 theta_min d_m_theta d_m_phi m_rho m_x m_y m_z pl_x pl_y pl_z h_eff_x h_eff_y h_eff_z epsilon beta h_stt_1_x h_stt_1_y h_stt_1_z h_stt_2_x h_stt_2_y h_stt_2_z h_inc_aux_x h_inc_aux_y h_inc_aux_z d_h_eff_theta d_h_eff_phi d_h_stt_1_theta d_h_stt_1_phi d_h_stt_2_theta d_h_stt_2_phi mdp dr_theta_x dr_theta_y dr_theta_z dr_phi_x dr_phi_y dr_phi_z ms k_i h_k_0 thermal_stability _stt_scale_fac _ap _am _kp _km _eps_simple_num _eps_simple_den0 _eps_simple_den1 shape_ani_demag_n_x shape_ani_demag_n_y shape_ani_demag_n_z fn seed t_prev theta_init d_fake_th_theta m_theta m_phi h_th_x h_th_y h_th_z th_power_noise_std "
+""
+"c_GAMMA_0 c_E c_HBAR c_U0 c_KB c_UB p_atol p_do_thermal p_do_theta_windowing p_theta_windowing_factor p_do_fake_thermal p_d_theta_fake_th p_seed p_theta_pl p_phi_pl p_state_init p_theta_init p_phi_init p_k_i_0 p_alpha p_ms p_shape_ani_demag_mode p_shape_ani_demag_n_x p_shape_ani_demag_n_y p_shape_ani_demag_n_z p_do_a_exchange p_a_exchange p_stt_mode p_stt_scale_mult p_p_pl p_p_fl p_lambda_pl p_lambda_fl p_lambda_s p_p p_nabla_mult p_eps_prime p_do_vcma p_xi p_t_fl p_t_ox p_w_fl p_l_fl _area _volume p_r_p p_tmr p_r_contact m "
+""
+"i_pl_fl v_pl_fl v_m_z h_ext_x h_ext_y h_ext_z "
+)
+"resistor" "primitive" (
+"r rsh thresh rthresh rac l w etch etchl scaler tc1 tc2 tnom trise coeffs nonlinform symmetric kf af wdexp ldexp weexp wf leexp lf fexp mr mrl mrlp mrw mrwp mrlw1 mrlw1p mrlw2 mrlw2p c cj cjsw thick di cratio tc1c tc2c shrink scalec dtemp cap dw dlr cox capsw res ef bv_max "
+"v i res pwr "
+"leff weff reff ceff tempeff meff "
+"r l w lvl m scale resform tc1 tc1r tc2 tc2r trise isnoisy bv_max c tc1c tc2c rac scaler scalec dtemp cap "
+""
+"1 2 0 "
+)
+END

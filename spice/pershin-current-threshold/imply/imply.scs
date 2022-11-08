@@ -4,7 +4,7 @@ include "../model/memristor.scs"
 
 subckt imply (vcond vset bitline)
 parameters
-+ rg=15k
++ rg=10k
 XP (vcond bitline) memristor
 XQ (vset bitline) memristor
 RG (bitline 0) resistor r=rg

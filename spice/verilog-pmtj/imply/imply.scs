@@ -1,0 +1,26 @@
+simulator lang=spectre
+include "../model/mtj_subcircuit.scs"
+
+
+subckt imply (vcond vset bitline)
+parameters
++ rg=10k
++ do_thermal=0
++ do_theta_windowing=0
++ do_fake_thermal=0
++ sim_atol=1e-10
+
+mtj_P (vcond 0 mz1 0 0 0) mtj_subcircuit
+	+ p_do_thermal=do_thermal
+	+ p_do_theta_windowing=do_theta_windowing
+	+ p_do_fake_thermal=do_fake_thermal
+	+ p_atol=sim_atol
+
+mtj_Q (vset 0 mz2 0 0 0) mtj_subcircuit
+	+ p_do_thermal=do_thermal
+	+ p_do_theta_windowing=do_theta_windowing
+	+ p_do_fake_thermal=do_fake_thermal
+	+ p_atol=sim_atol
+
+RG (bitline 0) resistor r=rg
+ends imply

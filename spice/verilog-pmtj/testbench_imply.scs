@@ -1,0 +1,55 @@
+**********************************************************************************************************
+* Verilog A model - PMTJ
+***********************************************************************************************************
+simulator lang=spectre
+global 0
+
+include "imply/imply.scs"
+
+
+parameters 
++ i_dc=0e-6
++ i_cond=25e-6
++ i_set=50e-6
++ i_pulse_ap2p=-50e-6
++ i_pulse_ap2p2=-25e-6
++ w_pulse=50e-9
++ input_delay=-2e-9
++ temp_celsius=26.85
++ do_thermal=0
++ do_theta_windowing=0
++ do_fake_thermal=0
++ sim_pivrel=0.1
++ sim_rtol=1e-8
++ sim_atol=1e-10
++ maxstep=1e-18
++ method=traponly
+
+ITRAN0 0 vcond isource type=pwl wave=[0 i_dc 1n i_cond 51n i_cond 52n i_dc 102n i_dc 103n i_cond 153n i_cond 154n i_dc 204n i_dc 205n i_cond]
+ITRAN1 0 vset isource type=pwl wave=[0 i_dc 1n i_set 51n i_set 52n i_dc 102n i_dc 103n i_set 153n i_set 154n i_dc 204n i_dc 205n i_set]
+//ITRAN1 0 vset isource type=pwl wave=[0 i_dc 1n -i_pulse_ap2p 51n -i_pulse_ap2p 52n i_dc 102n i_dc 103n i_pulse_ap2p 104n i_pulse_ap2p 154n i_dc 155n i_dc 205n i_pulse_ap2p 206n i_pulse_ap2p 256n i_dc]
+
+// ITRAN0 0 e0 isource type=pwl wave=[0 i_dc 2n -i_pulse_ap2p 52n -i_pulse_ap2p 54n i_dc 104n i_dc 106n i_pulse_ap2p 156n i_pulse_ap2p 158n i_dc 208n i_dc 210n -i_pulse_ap2p 260n -i_pulse_ap2p 262n i_dc]
+
+PMTJ_IMPLY (vcond vset bitline) imply
+
+highVoltageOptions options highvoltage=yes bin_relref=yes
+
+simulatorOptions options \
+    temp=(temp_celsius) \
+    tnom=25 scalem=1.0 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 \
+    reltol=sim_rtol \
+
+
+* finalTimeOP info what=oppoint where=rawfile
+* modelParameter info what=models where=rawfile
+* element info what=inst where=rawfile
+* outputParameter info what=output where=rawfile
+
+* primitives info what=primitives where=rawfile
+* subckts info what=subckts where=rawfile
+saveOptions options save=all subcktprobelvl=3 saveahdlvars=all
+tran_tt tran stop=(250n) \
+    annotate=status maxiters=5 \
+    method=method
