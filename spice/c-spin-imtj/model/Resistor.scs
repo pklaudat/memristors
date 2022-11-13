@@ -1,8 +1,14 @@
+************************************************************************************
+************************************************************************************
+** Title:  Resistor.scs
+** Adapted by: Paulo Klaudat, Laboratório de Prototipação e Teste @ UFRGS
+** Author: Jongyeon Kim, VLSI Research Lab @ UMN
+** Email:  pauloklaudat@gmail.com
+************************************************************************************
+** The dependence of resistance on  relative angle, temperature, and bias voltage
+** is implemented.
+************************************************************************************
 simulator lang=spectre
-//************************************************************************************
-//** The dependence of resistance on  relative angle, temperature, and bias voltage
-//** is implemented.
-//************************************************************************************
 
 subckt RA (n_plus n_minus Mx My Mz Tmp thi)
 parameters lx=65n ly=130n P0=0.715 RA0=5.4 MA=0.0

@@ -1,3 +1,13 @@
+************************************************************************************
+************************************************************************************
+** Title:  LLG_solver.scs
+** Adapted by: Paulo Klaudat, Laboratório de Prototipação e Teste @ UFRGS
+** Author: Jongyeon Kim, VLSI Research Lab @ UMN
+** Email:  pauloklaudat@gmail.com
+********************************************************************************************************
+** This library includes all sub-circuits, such as Heat Diffusion, the LLG Solver and the TMR module.
+** The voltage accross the MTJ is used to compute a dynamic current and the memristance.
+********************************************************************************************************
 simulator lang= spectre
 ******* Libraries ***********************
 include "LLG_solver.scs"

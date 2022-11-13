@@ -1,3 +1,12 @@
+************************************************************************************
+************************************************************************************
+** Title:  LLG_solver.scs
+** Adapted by: Paulo Klaudat, Laboratório de Prototipação e Teste @ UFRGS
+** Author: Jongyeon Kim, VLSI Research Lab @ UMN
+** Email:  pauloklaudat@gmail.com
+************************************************************************************
+** Implements the LLG solution according to the MTJ shape.
+************************************************************************************
 simulator lang= spectre
 
 subckt LLG (Mx My Mz Is Ias Tmp thi) 

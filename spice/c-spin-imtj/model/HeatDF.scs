@@ -1,3 +1,16 @@
+************************************************************************************
+************************************************************************************
+** Title:  HeatDF.scs
+** Adapted by: Paulo Klaudat, Laboratório de Prototipação e Teste @ UFRGS
+** Author: Jongyeon Kim, VLSI Research Lab @ UMN
+** Email:  pauloklaudat@gmail.com
+************************************************************************************
+** This module reproduces the joule heating effect in MTJ, increasing the internal
+** temperature. This effect causes changes in Saturation Magnetization Ms and also
+** in the Polarization property. The node Tmp is fed back to the LLG module and the
+** TMR module given by Resistor.scs
+************************************************************************************
+
 simulator lang=spectre
 
 subckt HD (Ihd Tmp) 
