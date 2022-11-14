@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: Memristors
+message: >-
+  If you use this software, please cite it use the
+  references inside the readme files.
+type: software
+authors:
+  - given-names: Paulo
+    family-names: Klaudat
+    email: pauloklaudat@gmail.com
+    affiliation: UFRGS
